@@ -1,17 +1,24 @@
-import useForm from "../../hooks/useForm";
 import React from "react";
-import { UserContext } from "../../context/UserContext";
-import { Flex, Stack } from "@chakra-ui/react";
-import Input from "../../components/forms/Input";
-import { Error } from "../../components/helps/Error";
-import Button from "../../components/forms/Buton";
-import { useNavigate } from "react-router-dom";
 
-function Login() {
-  const navigate = useNavigate()
+import { useNavigate } from "react-router-dom";
+import { Flex, Stack } from "@chakra-ui/react";
+
+import useForm from "hooks/useForm";
+
+import { useContextUser } from "context/UserContext";
+
+import { Input, Button } from "components/forms";
+import { Error } from "components/helps/Error";
+
+export function Login() {
+  const { userLogin, error, loading } = useContextUser();
+
+  const navigate = useNavigate();
+
   const email = useForm("email");
   const password = useForm("password");
-  const { userLogin, error, loading } = React.useContext(UserContext);
+
+  const redirectRegister = () => navigate("/register");
 
   async function handleSubmit(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -21,6 +28,7 @@ function Login() {
       userLogin({ email: email.value, password: password.value });
     }
   }
+
   return (
     <Flex w="100wv" h="100vh" align="center" justify="center">
       <Flex
@@ -33,9 +41,24 @@ function Login() {
         flexDir="column"
       >
         <Stack spacing="1">
-          <Input label="Email" type="email" name="email" placeholder="exemplo@gmail.com" {...email} />
-          <Input label="Senha" type="password" name="password"  placeholder='***********'{...password} />
+          <Input
+            label="Email"
+            type="email"
+            name="email"
+            placeholder="exemplo@gmail.com"
+            {...email}
+          />
+          <Input
+            label="Senha"
+            type="password"
+            name="password"
+            placeholder="***********"
+            {...password}
+          />
         </Stack>
+        <Flex align="center" justify="center">
+          <Error error={error} />
+        </Flex>
         {loading ? (
           <Button
             mt="6"
@@ -55,18 +78,11 @@ function Login() {
             Entrar
           </Button>
         )}
-          <Button
-            mt="6"
-            variant="solid"
-            size="lg"
-            onClick={() => navigate('/register')}
-          >
-            Criar Conta
-          </Button>
-        <Error error={error} />
+
+        <Button mt="6" variant="solid" size="lg" onClick={redirectRegister}>
+          Criar Conta
+        </Button>
       </Flex>
     </Flex>
   );
 }
-
-export default Login;

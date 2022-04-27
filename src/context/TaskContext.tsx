@@ -6,8 +6,8 @@ import React, {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { ITask } from "../interfaces/interfaces";
-import { getTasks } from "../service/loadingTask";
+import { ITask } from "interfaces/";
+import { getTasks } from "service/loadingTask";
 interface TaskContextData {
   tasks: ITask[];
   totalTasks: number;
@@ -33,24 +33,23 @@ export function TaskProvider({ children }: TaskProviderProps) {
       const response = await getTasks();
       setTasks(response.rows);
       setTotalTasks(response.count);
-      console.log(response);
     }
     if (token) {
       initialTasks();
     } else {
       navigate("/");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    console.log("mudou");
     console.log(tasks);
   }, [tasks]);
 
   const createdTask = (newTask: ITask) => {
     const newTasks = [...tasks];
 
+    newTasks.pop();
     newTasks.push(newTask);
 
     setTasks([...newTasks]);
@@ -85,26 +84,6 @@ export function TaskProvider({ children }: TaskProviderProps) {
     setTasks([...taskDeletada]);
   }
 
-  /*
-  async function getTasks() {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      try {
-        const { url, options } = TASKS_GET(token);
-        const tasksResponse = await fetch(url, options);
-        if (!tasksResponse.ok) throw new Error("Token invalido");
-        const dados = await tasksResponse.json();
-        setTasks(dados.rows);
-        setTotalTasks(dados.count);
-      } catch (error: any) {
-        throw new Error(error);
-      }
-    } else {
-      return navigate("");
-    }
-  }
-*/
-
   return (
     <TaskContext.Provider
       value={{
@@ -125,55 +104,3 @@ export function useContextTask() {
   const context = useContext(TaskContext);
   return context;
 }
-
-/*
-import { useNavigate } from "react-router-dom";
-import {
-  TaskContextdata,
-  TaskInputs,
-  TaskProviderProps,
-} from "../interfaces/interfaces";
-import { TASKS_GET } from "../service/api";
-
-export const TaskContext = React.createContext<TaskContextdata>(
-  {} as TaskContextdata
-);
-
-export const TaskStorage = ({ children }: TaskProviderProps) => {
-  const [tasks, setTasks] = useState<TaskInputs[]>([]);
-  const [refresh, setRefrash] = useState<boolean>(false);
-  const navigate = useNavigate();
-
-  async function getTasks() {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      try {
-        const { url, options } = TASKS_GET(token);
-        const tasksResponse = await fetch(url, options);
-        if (!tasksResponse.ok) throw new Error("Token invalido");
-        const dados = await tasksResponse.json();
-        setTasks(dados);
-      } catch (error: any) {
-        throw new Error(error);
-      }
-    } else {
-      return navigate("/login");
-    }
-  }
-
-  React.useEffect(() => {
-    getTasks();
-  }, [navigate, refresh]);
-
-  return (
-    <TaskContext.Provider
-      value={{
-        tasks,
-        setRefrash,
-      }}
-    >
-      {children}
-    </TaskContext.Provider>
-  );
-};
-*/

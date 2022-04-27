@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import {
   Flex,
   Stack,
@@ -5,12 +9,10 @@ import {
   Textarea,
   Input as ChakraInput,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Button from "../../components/forms/Buton";
-import { useContextTask } from "../../context/TaskContext";
-import { TASK_PUT } from "../../service/api";
+
+import { Button } from "components/forms";
+import { useContextTask } from "context/TaskContext";
+import { TASK_PUT } from "service";
 
 interface IImg {
   raw: File | null;
@@ -28,7 +30,6 @@ export function UpdatedTask() {
 
   const taskCurrent = tasks.filter((task) => String(task.id) === id)[0];
 
-
   useEffect(() => {
     if (taskCurrent) {
       setDescricao(taskCurrent.descricao);
@@ -41,7 +42,7 @@ export function UpdatedTask() {
   async function handleSubmit(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
-    e.preventDefault()
+    e.preventDefault();
     if (nome && descricao && img.raw && id) {
       const token = window.localStorage.getItem("token");
       let formData = new FormData();
@@ -53,7 +54,6 @@ export function UpdatedTask() {
       updatedTask({ id: String(id), nome, descricao, url: img.preview });
       navigate("/home");
     }
-
   }
 
   /*

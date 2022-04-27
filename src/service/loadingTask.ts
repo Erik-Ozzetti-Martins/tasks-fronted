@@ -1,4 +1,4 @@
-import { TASKS_GET } from "./api";
+import { TASKS_GET } from "service";
 
 export async function getTasks() {
   const token = window.localStorage.getItem("token");

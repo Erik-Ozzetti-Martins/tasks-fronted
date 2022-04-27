@@ -10,7 +10,7 @@ interface InputProps {
   placeholder?: string
 
 }
-function Input({ label, type, name, value, onChange, error, onBlur, placeholder }:InputProps) {
+export function Input({ label, type, name, value, onChange, error, onBlur, placeholder }:InputProps) {
   return (
     <FormControl>
       {!!label && <FormLabel ml="1" htmlFor={name}>{label}</FormLabel>}
@@ -36,4 +36,4 @@ function Input({ label, type, name, value, onChange, error, onBlur, placeholder 
   );
 }
 
-export default Input;
+

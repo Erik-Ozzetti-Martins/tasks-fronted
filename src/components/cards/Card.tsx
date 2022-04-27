@@ -1,10 +1,10 @@
 import { Box, Image, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useContextTask } from "../../context/TaskContext";
-import { ICardProps } from "../../interfaces/interfaces";
+import { ICardProps } from "../../interfaces/types";
 
-import { TASK_DELETE } from "../../service/api";
-import Buton from "../forms/Buton";
+import { TASK_DELETE } from "../../service";
+import { Button } from "../forms/Button";
 
 function Card({ task, setRefrash }: ICardProps) {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Card({ task, setRefrash }: ICardProps) {
     if (token) {
       const { url, options } = TASK_DELETE(id, token);
       await fetch(url, options);
-      deleteTask(id)
+      deleteTask(id);
     }
   }
   return (
@@ -41,8 +41,8 @@ function Card({ task, setRefrash }: ICardProps) {
           </Box>
         </Box>
         <Stack>
-          <Buton onClick={() => AtualizarTask()}>Atualizar</Buton>
-          <Buton onClick={() => handleDeletarTask(task.id)}>Excluir</Buton>
+          <Button onClick={() => AtualizarTask()}>Atualizar</Button>
+          <Button onClick={() => handleDeletarTask(task.id)}>Excluir</Button>
         </Stack>
       </Box>
     </Box>

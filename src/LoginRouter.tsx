@@ -1,9 +1,9 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { UserContext } from './context/UserContext';
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { UserContext } from "./context/UserContext";
 
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
+import { Login } from "./pages/auth/Login";
+import { Register } from "./pages/auth/Register";
 
 function LoginRouter() {
   const { login } = React.useContext(UserContext);

@@ -1,6 +1,6 @@
 import React from 'react';
-import { UserContext } from '../../context/UserContext';
 import { Navigate } from 'react-router-dom';
+import { UserContext } from 'context/UserContext';
 
 interface ProtectedRouterProps {
   children: any;

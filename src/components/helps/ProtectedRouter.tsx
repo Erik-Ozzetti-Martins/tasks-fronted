@@ -8,7 +8,7 @@ interface ProtectedRouterProps {
 
 function ProtectedRouter({ children }:ProtectedRouterProps) {
   const { login } = React.useContext(UserContext);
-  return login ? children : <Navigate to="" />;
+  return login ? children : <Navigate to="/" />;
 }
 
 export default ProtectedRouter;

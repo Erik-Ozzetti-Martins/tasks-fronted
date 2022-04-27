@@ -1,4 +1,4 @@
-import { Button, SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Card from "../../components/cards/Card";
 

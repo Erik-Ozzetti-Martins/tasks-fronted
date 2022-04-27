@@ -15,8 +15,8 @@ const types = {
     message: "Preencha um email valido",
   },
   password: {
-    regex: /^(?=.*\d)(?=.*[a-z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/,
-    message: "Senha muito curta",
+    regex: /^[a-zA-Z0-9\s]+$/,
+    message: "Senha muito franca",
   },
 };
 

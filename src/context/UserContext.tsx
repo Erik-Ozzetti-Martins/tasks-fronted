@@ -1,39 +1,46 @@
-import React from 'react';
-import { LOGIN_USER, LOGOUT_USER, USER_GET } from '../service/api';
-import { useNavigate } from 'react-router-dom';
-import { DataInput, IData, UserContextData, UserProviderProps } from '../interfaces/interfaces';
+import React from "react";
+import { LOGIN_USER, LOGOUT_USER, USER_GET } from "service";
+import { useNavigate } from "react-router-dom";
+import {
+  DataInputLogin,
+  IUserData,
+  UserContextData,
+  UserProviderProps,
+} from "interfaces";
 
-export const UserContext = React.createContext<UserContextData>({} as UserContextData);
+export const UserContext = React.createContext<UserContextData>(
+  {} as UserContextData
+);
 
-export const UserStorage = ({ children }:UserProviderProps) => {
-  const [data, setData] = React.useState<IData | null>(null);
+export const UserStorage = ({ children }: UserProviderProps) => {
+  const [data, setData] = React.useState<IUserData | null>(null);
   const [login, setLogin] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [error, setError] = React.useState('');
+  const [error, setError] = React.useState("");
   const navigate = useNavigate();
 
   const userLogout = React.useCallback(
     async function () {
       setData(null);
-      setError('');
+      setError("");
       setLoading(false);
       setLogin(false);
-      window.localStorage.removeItem('token');
-      navigate('/');
+      window.localStorage.removeItem("token");
+      navigate("/");
     },
-    [navigate],
+    [navigate]
   );
-  
+
   React.useEffect(() => {
     async function autoLogin() {
-      const token = window.localStorage.getItem('token');
+      const token = window.localStorage.getItem("token");
       if (token) {
         try {
-          setError('');
+          setError("");
           setLoading(true);
           const { url, options } = USER_GET(token);
           const response = await fetch(url, options);
-          if (!response.ok) throw new Error('Token invalido');
+          if (!response.ok) throw new Error("Token invalido");
           await getUser(token);
         } catch (error) {
           userLogout();
@@ -47,57 +54,57 @@ export const UserStorage = ({ children }:UserProviderProps) => {
     autoLogin();
   }, [userLogout]);
 
-  async function getUser(token:string) {
+  async function getUser(token: string) {
     const { url, options } = USER_GET(token);
     const response = await fetch(url, options);
     const json = await response.json();
     setData(json);
     setLogin(true);
   }
-  async function userRegister({nome, email ,password }: IData) {
+
+  async function userRegister({ nome, email, password }: IUserData) {
     try {
-      setError('');
+      setError("");
       setLoading(true);
       const { url, options } = LOGOUT_USER({ nome, email, password });
       const tokenResponse = await fetch(url, options);
-      if (!tokenResponse) {
-        throw new Error('email ja existe no sistema');
-      }
+
+      if (!tokenResponse) throw new Error("email ja existe no sistema");
+
       const { token } = await tokenResponse.json();
-      window.localStorage.setItem('token', token);
+      window.localStorage.setItem("token", token);
       await getUser(token);
-      navigate('/home');
-    } catch (error:any) {
+      navigate("/home");
+    } catch (error: any) {
       setError(error.message);
       setLogin(false);
     } finally {
       setLoading(false);
     }
   }
-  async function userLogin({email, password}:DataInput) {
+
+  async function userLogin({ email, password }: DataInputLogin) {
     try {
-      setError('');
+      setError("");
       setLoading(true);
       const { url, options } = LOGIN_USER({ email, password });
+
       const tokenRes = await fetch(url, options);
-      if (!tokenRes.ok) {
-        throw new Error('senha Incorreta ou email');
-      }
+
+      if (!tokenRes.ok) throw new Error("Senha incorreta ou email");
 
       const { token } = await tokenRes.json();
-
-      window.localStorage.setItem('token', token);
-
+      window.localStorage.setItem("token", token);
       await getUser(token);
-
-      navigate('/home');
-    } catch (error:any ) {
+      navigate("/home");
+    } catch (error: any) {
       setError(error.message);
       setLogin(false);
     } finally {
       setLoading(false);
     }
   }
+
   return (
     <UserContext.Provider
       value={{
@@ -115,3 +122,7 @@ export const UserStorage = ({ children }:UserProviderProps) => {
     </UserContext.Provider>
   );
 };
+export function useContextUser() {
+  const context = React.useContext(UserContext);
+  return context;
+}

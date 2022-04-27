@@ -1,18 +1,19 @@
 import React from "react";
-import Buton from "../../components/forms/Buton";
-import { UserContext } from "../../context/UserContext";
-import useForm from "../../hooks/useForm";
-import { Error } from "../../components/helps/Error";
-import Input from "../../components/forms/Input";
-import { Flex, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Flex, Stack, Text } from "@chakra-ui/react";
 
-function Register() {
+import { useContextUser } from "context/UserContext";
+import useForm from "hooks/useForm";
+
+import { Error } from "components/helps/Error";
+import { Input, Button } from "components/forms";
+
+export function Register() {
+  const { userRegister, error, loading } = useContextUser();
   const navigate = useNavigate();
   const nome = useForm("nome");
   const email = useForm("email");
   const password = useForm("password");
-  const { userRegister, error, loading } = React.useContext(UserContext);
 
   async function handleSubmit(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -27,6 +28,9 @@ function Register() {
       });
     }
   }
+
+  const redirectLogin = () => navigate("/");
+
   return (
     <Flex w="100wv" h="100vh" align="center" justify="center">
       <Flex
@@ -65,15 +69,15 @@ function Register() {
           />
         </Stack>
         {loading ? (
-          <Buton disabled>Carregando...</Buton>
+          <Button disabled>Carregando...</Button>
         ) : (
           <>
-            <Buton mt="6" onClick={(e) => handleSubmit(e)}>
+            <Button mt="6" onClick={(e) => handleSubmit(e)}>
               Criar Conta
-            </Buton>
-            <Buton mt="4" onClick={() => navigate("/")}>
+            </Button>
+            <Button mt="4" onClick={redirectLogin}>
               Voltar
-            </Buton>
+            </Button>
           </>
         )}
         <Error error={error} />
@@ -81,5 +85,3 @@ function Register() {
     </Flex>
   );
 }
-
-export default Register;

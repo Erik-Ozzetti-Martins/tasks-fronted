@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   Button,
   Flex,
@@ -6,12 +9,11 @@ import {
   Textarea,
   Input as ChakraLink,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Input from "../../components/forms/Input";
-import useForm from "../../hooks/useForm";
-import { TASK_POST } from "../../service/api";
-import { useContextTask } from "../../context/TaskContext";
+
+import { Input } from "components/forms";
+import useForm from "hooks/useForm";
+import { TASK_POST } from "service";
+import { useContextTask } from "context/TaskContext";
 
 interface IFoto {
   raw: File;

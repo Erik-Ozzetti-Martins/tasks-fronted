@@ -13,7 +13,7 @@ interface InputProps {
 export function Input({ label, type, name, value, onChange, error, onBlur, placeholder }:InputProps) {
   return (
     <FormControl>
-      {!!label && <FormLabel ml="1" htmlFor={name}>{label}</FormLabel>}
+      {!!label && <FormLabel color={'gray.900'}   ml="1" htmlFor={name}>{label}</FormLabel>}
       <ChakraInput
         name={name}
         type={type}
@@ -23,10 +23,10 @@ export function Input({ label, type, name, value, onChange, error, onBlur, place
         value={value}
         placeholder={placeholder}
         focusBorderColor="pink.500"
-        bgColor="white"
+        bgColor="gray.700"
         variant="filled"
         _hover={{
-          bgColor: "gray.900",
+          bgColor: "gray.500",
         }}
         mb="2"
         size="md"

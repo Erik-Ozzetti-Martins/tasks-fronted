@@ -42,7 +42,7 @@ export function Register() {
         borderRadius={8}
         flexDir="column"
       >
-        <Text fontSize="xl" display="flex" justifyContent="center">
+        <Text fontSize="xl" display="flex" justifyContent="center" color={'gray.900'}>
           Criar conta
         </Text>
         <Stack spacing="2">

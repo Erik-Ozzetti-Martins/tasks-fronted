@@ -1,4 +1,4 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { Box, Container, SimpleGrid } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Card from "../../components/cards/Card";
 
@@ -15,30 +15,23 @@ function Home() {
 
   async function handleClick(page: number) {
     const { rows } = await getPageTasks(page, limit);
-    setpage(page)
+    setpage(page);
     console.log("response  home", rows);
     addTasks(rows);
   }
-  const pages = [...new Array(totalPage)];
-  console.log(pages);
-  
-  /*
-  {pages.map((page, index) => {
-    let  disabled =  index === page
-    return (
-      <Button key={index} onClick={() => handleClick(index + 1)} disabled={disabled} bg={disabled ? 'gray.200': 'pink.500' }>
-        {index + 1}
-      </Button>
-    );
-  })}
-  */
+
   return (
     <>
-      <SimpleGrid minChildWidth="260px" spacing="20px" ml="15">
+      <SimpleGrid minChildWidth="260px" spacing="20px" ml="15" mb="16">
         {tasks && tasks.map((task) => <Card task={task} key={task.id} />)}
       </SimpleGrid>
-      <Pagination   onChangePage={(page) => handleClick(page)} currentPage={page} totalCount={totalTasks}/>
-      
+      <Box display="flex" justifyContent="center" mt="4">
+        <Pagination
+          onChangePage={(page) => handleClick(page)}
+          currentPage={page}
+          totalCount={totalTasks}
+        />
+      </Box>
     </>
   );
 }

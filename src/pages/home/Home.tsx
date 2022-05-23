@@ -1,4 +1,4 @@
-import { Box, Container, SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Card from "../../components/cards/Card";
 
@@ -11,7 +11,6 @@ function Home() {
   const [page, setpage] = useState(1);
   useEffect(() => {}, [tasks]);
   const limit = 10;
-  const totalPage = Math.floor(totalTasks / limit);
 
   async function handleClick(page: number) {
     const { rows } = await getPageTasks(page, limit);

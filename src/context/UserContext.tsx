@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { LOGIN_USER, LOGOUT_USER, USER_GET } from "service";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,10 +13,10 @@ export const UserContext = React.createContext<UserContextData>(
 );
 
 export const UserStorage = ({ children }: UserProviderProps) => {
-  const [data, setData] = React.useState<IUserData | null>(null);
-  const [login, setLogin] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [error, setError] = React.useState("");
+  const [data, setData] = useState<IUserData | null>(null);
+  const [login, setLogin] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const userLogout = React.useCallback(
@@ -123,6 +123,6 @@ export const UserStorage = ({ children }: UserProviderProps) => {
   );
 };
 export function useContextUser() {
-  const context = React.useContext(UserContext);
+  const context = useContext(UserContext);
   return context;
 }
